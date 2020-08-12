@@ -1,2 +1,2 @@
 # CSC312GroupProject
-Hello, World!
+Git Repo for CSC312 Group Project.
