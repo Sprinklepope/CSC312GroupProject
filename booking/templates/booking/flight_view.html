@@ -1,0 +1,27 @@
+{% extends "booking/base.html" %}
+{% block content %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Flight</th>
+                <th scope="col">Airline</th>
+                <th scope="col">Departure</th>
+                <th scope="col">Arrival</th>
+                <th scope="col">Date</th>
+                <th scope="col">Book Now</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for flight in flights %}
+                <tr>
+                    <th scope="row">{{ flight.flightID }}</th>
+                    <td>{{ flight.airline }}</td>
+                    <td>{{ flight.departureLocation }}</td>
+                    <td>{{ flight.arrivalLocation }}</td>
+                    <td>{{ flight.dateTime }}</td>
+                    <td><a href="#"><button type="button" class="btn btn-success">Book Now</button></a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock content %}
