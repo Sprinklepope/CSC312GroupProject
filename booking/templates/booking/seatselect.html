@@ -1,4 +1,43 @@
-{% extends "booking/base.html" %}
+{% extends "main/base.html" %}
 {% block content %}
-    <h1>Seat Select</h1>
+    <h1>Seat Selection for {{ flightInfo.airline }} flight {{ flightInfo.flightNo }}</h1>
+    <form method="post" action="to/url">
+        {% csrf_token %}
+        <table>
+            {% for i in row %}
+                <tr>
+                    {% for j in col %}
+                        {% if j == mid %}
+                            <td>Isle</td>
+                        {% else %}
+                            <td><input type="checkbox" name="seats[{{ i }}][{{ j }}]" id="seats[{{ i }}][{{ j }}]" value="1"><label for="seats[{{ i }}][{{ j }}]"></td>
+                        {% endif %}
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </table>
+        <button type="submit">Submit</button>
+    </form>
+    <style>
+        table {
+            background-color: #fff;
+            width: 20vw;
+        }
+     
+        input[type=checkbox] {
+            display: none;
+        }
+     
+        label {
+            width: 30px;
+            height: 30px;
+            border-radius: 4px;
+            background-color: #3498db;
+        }
+     
+        input[type="checkbox"]:checked+label {
+            background-color: #1f5d85;
+            border: 2px solid #2c3e50;
+        }
+    </style>
 {% endblock content %}
