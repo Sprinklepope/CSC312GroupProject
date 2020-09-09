@@ -5,6 +5,8 @@ from .models import Flight
 
 class FlightSelectView(ListView):
     model = Flight
+    context_object_name = 'flights'
+    ordering = ['flightDateTime']
 
 def seatselect(request):
     return render(request, 'booking/seatselect.html')

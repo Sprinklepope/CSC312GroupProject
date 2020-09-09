@@ -1,4 +1,4 @@
-{% extends "booking/base.html" %}
+{% extends "main/base.html" %}
 {% block content %}
     <table class="table">
         <thead>
@@ -14,11 +14,11 @@
         <tbody>
             {% for flight in flights %}
                 <tr>
-                    <th scope="row">{{ flight.flightID }}</th>
+                    <th scope="row">{{ flight.flightNo }}</th>
                     <td>{{ flight.airline }}</td>
                     <td>{{ flight.departureLocation }}</td>
                     <td>{{ flight.arrivalLocation }}</td>
-                    <td>{{ flight.dateTime }}</td>
+                    <td>{{ flight.flightDateTime }}</td>
                     <td><a href="#"><button type="button" class="btn btn-success">Book Now</button></a></td>
                 </tr>
             {% endfor %}
