@@ -1,10 +1,10 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView
-from .models import Flight
+from .models import Flights
 
 class FlightSelectView(ListView):
-    model = Flight
+    model = Flights
 
 def seatselect(request):
     return render(request, 'booking/seatselect.html')
