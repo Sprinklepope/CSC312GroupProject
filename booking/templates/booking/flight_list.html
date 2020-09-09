@@ -1,5 +1,6 @@
 {% extends "main/base.html" %}
 {% block content %}
+    <h1>Select Flight</h1>
     <table class="table">
         <thead>
             <tr>
@@ -19,7 +20,7 @@
                     <td>{{ flight.departureLocation }}</td>
                     <td>{{ flight.arrivalLocation }}</td>
                     <td>{{ flight.flightDateTime }}</td>
-                    <td><a href="#"><button type="button" class="btn btn-success">Book Now</button></a></td>
+                    <td><a href="#"><button type="button" class="btn btn-success">Book</button></a></td>
                 </tr>
             {% endfor %}
         </tbody>
