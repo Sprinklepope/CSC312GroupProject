@@ -10,8 +10,8 @@
 			z-index:1;
 			top:0;
 			left:0;
-			background-color:#111;
-			overflow-x: hidden;
+			background-color:#3B5998;
+			overflow-x: :hidden;
 			padding-top:0px;
 
 
@@ -21,13 +21,13 @@
 			padding:6px 8px 6px 16px;
 			text-decoration: none;
 			font-size:25px;
-			color: #818181;
+			color: #FFFFFF;
 			display:block;
 			float: left;
 		}
 
 		.sidenav a:hover{
-			color:#F1F1F1;
+			color:#c0c0c0;
 		}
 
 		.main{
@@ -63,6 +63,11 @@
 	<div id="content" name="content" class="main">
 		<div class="row justify-content-center">
 			<div class="col-8">
+				<h1 class="mt-2">flightbook</h1>
+                {% if user.is_authenticated %}
+                    <p>Welcome {{user.username}}!</p>
+                {% endif %}
+				<hr class="mt-0 mb-4">
 				{% block content %}
 				{% endblock %}
 			</div>
