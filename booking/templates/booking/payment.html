@@ -1,4 +1,53 @@
-{% extends "booking/base.html" %}
+{% extends "main/base.html" %}
+{% load crispy_forms_tags %}
 {% block content %}
     <h1>Payment</h1>
+    <h2>Order Summary:</h2>
+    <table class='table'>
+        <thead>
+            <tr>
+                <th scope="col">Seat Type</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Price Per Seat</th>
+                <th scope="col">Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if classes.e != 0 %}
+            <tr>
+                <td>Economy Class</td>
+                <td>{{classes.e}}</td>
+                <td>R{{flight.economyCost}}</td>
+                <td>R{{prices.eprice}}</td>
+            </tr>
+            {% endif %}
+            {% if classes.b != 0 %}
+            <tr>
+                <td>Business Class</td>
+                <td>{{classes.b}}</td>
+                <td>R{{flight.businessCost}}</td>
+                <td>R{{prices.bprice}}</td>
+            </tr>
+            {% endif %}
+            {% if classes.f != 0 %}
+            <tr>
+                <td>First Class</td>
+                <td>{{classes.f}}</td>
+                <td>R{{flight.firstCost}}</td>
+                <td>R{{prices.fprice}}</td>
+            </tr>
+            {% endif %}
+        </tbody>
+    </table>
+    <h3>Total: R{{prices.total}}</h3>
+    <form method="POST">
+        {% csrf_token %}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4">Card Information:</legend>
+            {{ form|crispy }}
+        </fieldset>
+        <div class="form-group">
+            <button class="btn btn-outline-info" type="submit">Submit</button>
+        </div>
+    </form>
 {% endblock content %}
