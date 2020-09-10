@@ -1,5 +1,6 @@
-{% extends "booking/base.html" %}
+{% extends "main/base.html" %}
 {% block content %}
+    <h1>Select Flight</h1>
     <table class="table">
         <thead>
             <tr>
@@ -14,12 +15,12 @@
         <tbody>
             {% for flight in flights %}
                 <tr>
-                    <th scope="row">{{ flight.flightID }}</th>
+                    <th scope="row">{{ flight.flightNo }}</th>
                     <td>{{ flight.airline }}</td>
                     <td>{{ flight.departureLocation }}</td>
                     <td>{{ flight.arrivalLocation }}</td>
-                    <td>{{ flight.dateTime }}</td>
-                    <td><a href="#"><button type="button" class="btn btn-success">Book Now</button></a></td>
+                    <td>{{ flight.flightDateTime }}</td>
+                    <td><a href="{% url 'booking-seat' flight.flightNo %}"><button type="button" class="btn btn-success">Book</button></a></td>
                 </tr>
             {% endfor %}
         </tbody>

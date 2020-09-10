@@ -1,4 +1,46 @@
-{% extends "booking/base.html" %}
+{% extends "main/base.html" %}
 {% block content %}
-    <h1>Confirmation</h1>
+    <h1>Confirmation for booking #{{order}}</h1>
+    <h2>Flight Information</h2>
+    <table class='table'>
+        <thead>
+            <tr>
+                <th scope="col">Flight</th>
+                <th scope="col">Airline</th>
+                <th scope="col">Departure</th>
+                <th scope="col">Arrival</th>
+                <th scope="col">Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">{{ flight.flightNo }}</th>
+                <td>{{ flight.airline }}</td>
+                <td>{{ flight.departureLocation }}</td>
+                <td>{{ flight.arrivalLocation }}</td>
+                <td>{{ flight.flightDateTime }}</td>
+            </tr>
+        </tbody>
+    </table>
+    <h2>Seat Information</h2>
+    <table class='table'>
+        <thead>
+            <tr>
+                <th scope="col">Seat Number</th>
+                <th scope="col">Seat Type</th>
+                <th scope="col">Passanger Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ticket in tickets %}
+            <tr>
+                <td>{{ ticket.seatNo }}</td>
+                <td>{{ ticket.get_seatClass_display }}</td>
+                <td>{{ticket.passengerNames}} {{ticket.passengerSurname}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <h2>Total Price: R{{total}}</h2>
+    <a href="/"><button type="button" class="btn btn-primary">Return to Home</button></a>
 {% endblock content %}
