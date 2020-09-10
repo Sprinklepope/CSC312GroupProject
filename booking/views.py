@@ -21,24 +21,24 @@ def seatselect(request, flight):
             args = request.POST.keys()
             booking = str(random.randint(100000, 999999))
             seats = []
-            classes = {
+            classesNo = {
                 'e':0,
                 'b': 0,
                 'f': 0,
             }
             for val in args:
                 if val != "csrfmiddlewaretoken":
-                    seats.append(letters[int(val[-2])] + str(val[2:-4]))
-                    classes[val[0]] +=1
+                    seats.append(((letters[int(val[-2])] + str(val[2:-4])), val[0]))
+                    classesNo[val[0]] +=1
             ids=[]
             for seat in seats:
-                ticket = Ticket_History(bookingRef=booking, seatNo=seat, flightNo=Flight.objects.get(flightNo=flight), booked_MemberID=request.user)
+                ticket = Ticket_History(bookingRef=booking, seatNo=seat[0], flightNo=Flight.objects.get(flightNo=flight), booked_MemberID=request.user, seatClass=seat[1])
                 ticket.save()
                 ids.append(ticket.id)
                 
             request.session['ids'] = ids
             request.session['order'] = booking
-            request.session['classes'] = classes
+            request.session['classes'] = classesNo
             return redirect('booking-info', pk=ids[0])
     request.session['flight'] = flight
     flightInfo = Flight.objects.get(flightNo=flight)
@@ -116,4 +116,14 @@ def payment(request, booking):
 
 @login_required
 def confirmation(request, booking):
-    return render(request, 'booking/confirmation.html')
+    tickets = Ticket_History.objects.filter(bookingRef=booking)
+    flight = Flight.objects.get(flightNo=request.session['flight'])
+    classes = request.session['classes']
+    total = classes['e']*flight.economyCost + classes['b']*flight.businessCost + classes['f']*flight.firstCost
+    context = {
+        'tickets': tickets,
+        'total': total,
+        'flight': flight,
+        'order': request.session['order']
+    }
+    return render(request, 'booking/confirmation.html', context)

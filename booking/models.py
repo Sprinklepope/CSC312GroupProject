@@ -27,6 +27,15 @@ class Flight(models.Model):
     firstCost = models.DecimalField(default=0, decimal_places=2, max_digits=12)
 
 class Ticket_History(models.Model):
+    ECONOMY = 'e'
+    BUSINESS = 'b'
+    FIRST = 'f'
+    CLASS_CHOICES = [
+        (ECONOMY, 'Economy Class'),
+        (BUSINESS, 'Business Class'),
+        (FIRST, 'First Class')
+    ]
+
     bookingRef = models.CharField(max_length=6)
     seatNo = models.CharField(max_length=3)
     passenger_passportNo = models.CharField(max_length=13)
@@ -34,4 +43,5 @@ class Ticket_History(models.Model):
     passengerNames = models.CharField(max_length=100)
     passengerSurname = models.CharField(max_length=100)
     flightNo = models.ForeignKey(Flight, on_delete=models.CASCADE)
+    seatClass = models.CharField(max_length=1, choices=CLASS_CHOICES, default=ECONOMY)
     ticket_Cancelled = models.BooleanField(default=False)
