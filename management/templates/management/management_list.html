@@ -1,0 +1,35 @@
+{% extends "main/base.html" %}
+{% block content %}
+    <h1>Flight Info</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Flight</th>
+                <th scope="col">Airline</th>
+{#                D
+                <th scope="col">Date</th>
+                <th scope="col">Total Seats</th>
+                <th scope="col">Available Seats</th>
+                <th scope="col">Taken Seats</th>
+
+            </tr>
+        </thead>
+        <tbody>
+
+            {% for seats,flight in dualinfo%}
+                <tr>
+                    <th scope="row">{{ flight.flightNo }}</th>
+                    <td>{{ flight.airline }}</td>
+{#
+                    <td>{{ flight.flightDateTime }}</td>
+                    <td>{{ "162" }}</td>
+                    <td>{{ flight.seatsAvailable }}</td>
+                    <td>{{seats}}</td>
+                </tr>
+            {% endfor %}
+
+
+        </tbody>
+    </table>
+    <td><a href="/downloadinfo"><button type="button" class="btn btn-success">Download as CSV</button></a></td>
+{% endblock content %}
