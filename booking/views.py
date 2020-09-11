@@ -23,7 +23,7 @@ def seatselect(request, flight):
     Renders seat selection template.
     On Post Request it determines the selected seats
     and calls InfoCollectView.
-    This places relevant ticket infor into request.session
+    This places relevant ticket info into request.session
     '''
     letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
     # Checks if request is POST
@@ -53,8 +53,9 @@ def seatselect(request, flight):
             request.session['order'] = booking
             request.session['classes'] = classesNo
             return redirect('booking-info', pk=ids[0])
-    # Collecting Context Data to be sent to view
+    # Removing incomplete ticket entries
     Ticket_History.objects.filter(passenger_passportNo__exact='',passengerNames__exact='',passengerSurname__exact='').delete()
+    # Collecting Context Data to be sent to view
     request.session['flight'] = flight
     flightInfo = Flight.objects.get(flightNo=flight)
     flightHistory = Ticket_History.objects.filter(flightNo=flightInfo, ticket_Cancelled=False)
@@ -122,6 +123,7 @@ def payment(request, booking):
         form = PayementForm(request.POST)
         # Redirects to confirmation page if form is valid
         if form.is_valid():
+            # Decrementing number of available seats for flight
             flight = Flight.objects.get(flightNo=request.session['flight'])
             flight.seatsAvailable = flight.seatsAvailable - 1
             flight.save()
