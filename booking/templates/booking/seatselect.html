@@ -1,41 +1,71 @@
 {% extends "main/base.html" %}
 {% block content %}
     <h1>Seat Selection for {{ flightInfo.airline }} flight {{ flightInfo.flightNo }}</h1>
-    <form method="post">
-        {% csrf_token %}
-        <table>
-            <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    {% for letter in letters %}
-                        <th scope="col">{{ letter }}</th>
+    <div class='container-fluid'>
+        <form method="post">
+        <div class="row">
+            <div class="col">
+                {% csrf_token %}
+                <table>
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            {% for letter in letters %}
+                                <th scope="col">{{ letter }}</th>
+                            {% endfor %}
+                        </tr>
+                    </thead>
+                    {% for seat in seats %}
+                        <tr>
+                            <td>{{seat.0.0}}</td>
+                            {% for pos in seat %}
+                                {% if pos.1 == mid %}
+                                    <td><div style="width:30px"></div></td>
+                                {% endif %}
+                                {% if pos in takenSeats %}
+                                    <td><label class="taken"for="f[{{ pos.0 }}][{{ pos.1 }}]"></td>
+                                {% else %}
+                                    {% if pos.0 <= firstMark %}
+                                        <td><input class="first" type="checkbox" name="f[{{ pos.0 }}][{{ pos.1 }}]" id="f[{{ pos.0 }}][{{ pos.1 }}]" value="1"><label class="first"for="f[{{ pos.0 }}][{{ pos.1 }}]"></td>
+                                    {% elif pos.0 <= busMark %}
+                                        <td><input class="bus" type="checkbox" name="b[{{ pos.0 }}][{{ pos.1 }}]" id="b[{{ pos.0 }}][{{ pos.1 }}]" value="1"><label class="bus"for="b[{{ pos.0 }}][{{ pos.1 }}]"></td>
+                                    {% else %}
+                                        <td><input class="economy" type="checkbox" name="e[{{ pos.0 }}][{{ pos.1 }}]" id="e[{{ pos.0 }}][{{ pos.1 }}]" value="1"><label class="economy"for="e[{{ pos.0 }}][{{ pos.1 }}]"></td>
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
+                        </tr>
                     {% endfor %}
-                </tr>
-            </thead>
-            {% for seat in seats %}
-                <tr>
-                    <td>{{seat.0.0}}</td>
-                    {% for pos in seat %}
-                        {% if pos.1 == mid %}
-                            <td><div style="width:30px"></div></td>
-                        {% endif %}
-                        {% if pos in takenSeats %}
-                            <td><label class="taken"for="f[{{ pos.0 }}][{{ pos.1 }}]"></td>
-                        {% else %}
-                            {% if pos.0 <= firstMark %}
-                                <td><input class="first" type="checkbox" name="f[{{ pos.0 }}][{{ pos.1 }}]" id="f[{{ pos.0 }}][{{ pos.1 }}]" value="1"><label class="first"for="f[{{ pos.0 }}][{{ pos.1 }}]"></td>
-                            {% elif pos.0 <= busMark %}
-                                <td><input class="bus" type="checkbox" name="b[{{ pos.0 }}][{{ pos.1 }}]" id="b[{{ pos.0 }}][{{ pos.1 }}]" value="1"><label class="bus"for="b[{{ pos.0 }}][{{ pos.1 }}]"></td>
-                            {% else %}
-                                <td><input class="economy" type="checkbox" name="e[{{ pos.0 }}][{{ pos.1 }}]" id="e[{{ pos.0 }}][{{ pos.1 }}]" value="1"><label class="economy"for="e[{{ pos.0 }}][{{ pos.1 }}]"></td>
-                            {% endif %}
-                        {% endif %}
-                    {% endfor %}
-                </tr>
-            {% endfor %}
-        </table>
-        <button class="btn btn-outline-info" type="submit">Submit</button>
-    </form>
+                </table>
+            </div>
+            <div class="col">
+                <p>Please select the seats you would like to book.</p>
+                <h4>Legend:</h4>
+                <div>
+                    <table class="table table-sm text-center">
+                        <thead>
+                            <tr>
+                                <th scope="col"><label class="first"></label></th>
+                                <th scope="col"><label class="bus"></th>
+                                <th scope="col"><label class="economy"></th>
+                                <th scope="col"><label class="taken"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>First Class</td>
+                                <td>Business Class</td>
+                                <td>Economy Class</td>
+                                <td>Seat Taken</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <button class="btn btn-outline-info" type="submit">Submit</button>
+            </div>
+        </form>
+        </div>
+    </div>
     <style>
         table {
             background-color: #fff;
