@@ -9,18 +9,30 @@ from .forms import PayementForm
 import random
 
 class FlightSelectView(ListView):
+    '''
+    Displays all available flights.
+    Extends ListView Default View
+    '''
     model = Flight
     context_object_name = 'flights'
     ordering = ['flightDateTime']
 
 @login_required
 def seatselect(request, flight):
+    '''
+    Renders seat selection template.
+    On Post Request it determines the selected seats
+    and calls InfoCollectView.
+    This places relevant ticket infor into request.session
+    '''
     letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    # Checks if request is POST
     if request.method == "POST":
         if len(request.POST) > 1:
             args = request.POST.keys()
-            booking = str(random.randint(100000, 999999))
+            booking = str(random.randint(100000, 999999))   # Generating Booking Number
             seats = []
+            # Determining number of types of seats
             classesNo = {
                 'e':0,
                 'b': 0,
@@ -31,15 +43,17 @@ def seatselect(request, flight):
                     seats.append(((letters[int(val[-2])] + str(val[2:-4])), val[0]))
                     classesNo[val[0]] +=1
             ids=[]
+            # Creating initial entry for seats selected
             for seat in seats:
                 ticket = Ticket_History(bookingRef=booking, seatNo=seat[0], flightNo=Flight.objects.get(flightNo=flight), booked_MemberID=request.user, seatClass=seat[1])
                 ticket.save()
                 ids.append(ticket.id)
-                
+            # Loading data into session for next views
             request.session['ids'] = ids
             request.session['order'] = booking
             request.session['classes'] = classesNo
             return redirect('booking-info', pk=ids[0])
+    # Collecting Context Data to be sent to view
     Ticket_History.objects.filter(passenger_passportNo__exact='',passengerNames__exact='',passengerSurname__exact='').delete()
     request.session['flight'] = flight
     flightInfo = Flight.objects.get(flightNo=flight)
@@ -60,6 +74,7 @@ def seatselect(request, flight):
         for c in cols:
             seats[r-1].append((r,c))
 
+    # Context Data
     context = {
         'flightInfo': flightInfo,
         'seats': seats,
@@ -73,15 +88,21 @@ def seatselect(request, flight):
     return render(request, "booking/seatselect.html", context)
 
 class InfoCollectView(LoginRequiredMixin, UpdateView):
+    '''
+    Presents form for outstanding ticket information to user
+    Extends UpdateView Default View
+    '''
     template_name = 'booking/infocollect.html'
     model = Ticket_History
     fields = ['passenger_passportNo','passengerNames', 'passengerSurname']
     context_object_name = 'context'
 
+    # Checking validity of returned form
     def form_valid(self, form):
         form.instance.author = self.request.user
         return super().form_valid(form)
 
+    # Determines success url based on whether more seat forms need to be filled or not
     def get_success_url(self):
         if len(self.request.session['ids']) > 1:
             self.request.session['ids'] = self.request.session['ids'][1:]
@@ -92,8 +113,14 @@ class InfoCollectView(LoginRequiredMixin, UpdateView):
 
 @login_required
 def payment(request, booking):
+    '''
+    Shows payment breakdown of order.
+    Provides a form for bank details.
+    '''
+    # Checks if request is POST
     if request.method == 'POST':
         form = PayementForm(request.POST)
+        # Redirects to confirmation page if form is valid
         if form.is_valid():
             flight = Flight.objects.get(flightNo=request.session['flight'])
             flight.seatsAvailable = flight.seatsAvailable - 1
@@ -101,6 +128,7 @@ def payment(request, booking):
             return HttpResponseRedirect(reverse('booking-confirm' ,kwargs={'booking': request.session['order']}))
     else:
         form = PayementForm()
+    # Collecting Context Data
     orders = Ticket_History.objects.filter(bookingRef=booking)
     flight = Flight.objects.get(flightNo=request.session['flight'])
     classes = request.session['classes']
@@ -117,10 +145,15 @@ def payment(request, booking):
         'prices': prices,
         'flight': flight
     }
+    # Rendering payment page
     return render(request, 'booking/payment.html', context)
 
 @login_required
 def confirmation(request, booking):
+    '''
+    Displays order confirmation page
+    '''
+    # Collecting Context Information
     tickets = Ticket_History.objects.filter(bookingRef=booking)
     flight = Flight.objects.get(flightNo=request.session['flight'])
     classes = request.session['classes']
@@ -131,4 +164,5 @@ def confirmation(request, booking):
         'flight': flight,
         'order': request.session['order']
     }
+    # Rendering Confirmation Page
     return render(request, 'booking/confirmation.html', context)
