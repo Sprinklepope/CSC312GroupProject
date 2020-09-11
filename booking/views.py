@@ -93,6 +93,9 @@ def payment(request, booking):
     if request.method == 'POST':
         form = PayementForm(request.POST)
         if form.is_valid():
+            flight = Flight.objects.get(flightNo=request.session['flight'])
+            flight.seatsAvailable = flight.seatsAvailable - 1
+            flight.save()
             return HttpResponseRedirect(reverse('booking-confirm' ,kwargs={'booking': request.session['order']}))
     else:
         form = PayementForm()
