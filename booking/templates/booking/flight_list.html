@@ -20,7 +20,11 @@
                     <td>{{ flight.departureLocation }}</td>
                     <td>{{ flight.arrivalLocation }}</td>
                     <td>{{ flight.flightDateTime }}</td>
-                    <td><a href="{% url 'booking-seat' flight.flightNo %}"><button type="button" class="btn btn-success">Book</button></a></td>
+                    {% if flight.seatsAvailable != 0 %}
+                        <td><a href="{% url 'booking-seat' flight.flightNo %}"><button type="button" class="btn btn-success">Book</button></a></td>
+                    {% else %}
+                        <td><button type="button" class="btn btn-danger" disabled>Sold Out</button></td>
+                    {% endif %}
                 </tr>
             {% endfor %}
         </tbody>
