@@ -17,17 +17,21 @@ class FlightInfo(ListView):
         context = super().get_context_data(**kwargs)
         a = []
         for flight in Flight.objects.all():
-            a.append(162-flight.seatsAvailable)
+            numseats = flight.planeID.seatsAvailable
+            a.append(numseats-flight.seatsAvailable)
         context['flightsize'] = a
         return context
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         a = []
+        c = []
         for flight in Flight.objects.all():
-            a.append(162 - flight.seatsAvailable)
+            numseats = flight.planeID.seatsAvailable
+            c.append(numseats)
+            a.append(numseats - flight.seatsAvailable)
         b = Flight.objects.all()
-        context['dualinfo'] = zip(a,b)
+        context['triinfo'] = zip(a,b,c)
         return context
 
 
@@ -39,8 +43,7 @@ class FlightInfo(ListView):
         writer = csv.writer(response)
         writer.writerow(['Flight', 'Airline', 'Date', 'Total Seats', 'Available Seats', 'Taken Seats'])
         for flight in Flight.objects.all():
-            numseats = 162
-            # numseats = Plane.objects.
+            numseats = flight.planeID.seatsAvailable
             writer.writerow([flight.flightNo, flight.airline, flight.flightDateTime, numseats, flight.seatsAvailable, numseats-flight.seatsAvailable])
 
         return response

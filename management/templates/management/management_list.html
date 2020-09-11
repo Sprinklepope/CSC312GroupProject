@@ -6,7 +6,6 @@
             <tr>
                 <th scope="col">Flight</th>
                 <th scope="col">Airline</th>
-{#                D
                 <th scope="col">Date</th>
                 <th scope="col">Total Seats</th>
                 <th scope="col">Available Seats</th>
@@ -16,13 +15,12 @@
         </thead>
         <tbody>
 
-            {% for seats,flight in dualinfo%}
+            {% for seats,flight,totalseats in triinfo%}
                 <tr>
                     <th scope="row">{{ flight.flightNo }}</th>
                     <td>{{ flight.airline }}</td>
-{#
                     <td>{{ flight.flightDateTime }}</td>
-                    <td>{{ "162" }}</td>
+                    <td>{{ totalseats }}</td>
                     <td>{{ flight.seatsAvailable }}</td>
                     <td>{{seats}}</td>
                 </tr>
