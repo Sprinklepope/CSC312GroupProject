@@ -40,6 +40,7 @@ def seatselect(request, flight):
             request.session['order'] = booking
             request.session['classes'] = classesNo
             return redirect('booking-info', pk=ids[0])
+    Ticket_History.objects.filter(passenger_passportNo__exact='',passengerNames__exact='',passengerSurname__exact='').delete()
     request.session['flight'] = flight
     flightInfo = Flight.objects.get(flightNo=flight)
     flightHistory = Ticket_History.objects.filter(flightNo=flightInfo, ticket_Cancelled=False)
