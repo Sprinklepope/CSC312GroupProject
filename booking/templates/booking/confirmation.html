@@ -9,7 +9,9 @@
                 <th scope="col">Airline</th>
                 <th scope="col">Departure</th>
                 <th scope="col">Arrival</th>
+                <th scope="col">Departure Terminal</th>
                 <th scope="col">Date</th>
+                <th scope="col">Flight Duration</th>
             </tr>
         </thead>
         <tbody>
@@ -18,7 +20,9 @@
                 <td>{{ flight.airline }}</td>
                 <td>{{ flight.departureLocation }}</td>
                 <td>{{ flight.arrivalLocation }}</td>
+                <td>{{ flight.departureTerminal }}</td>
                 <td>{{ flight.flightDateTime }}</td>
+                <td>{{ flight.flightDuration }}</td>
             </tr>
         </tbody>
     </table>

@@ -19,7 +19,7 @@ class Flight(models.Model):
     departureLocation = models.CharField(max_length=100)
     arrivalLocation = models.CharField(max_length=100)
     flightDateTime = models.DateTimeField()
-    flightDuration = models.DecimalField(decimal_places=2, max_digits=4)
+    flightDuration = models.CharField(max_length=20)
     departureTerminal = models.CharField(max_length=3)
     planeID = models.ForeignKey(Plane, on_delete=models.CASCADE)
     economyCost = models.DecimalField(default=0, decimal_places=2, max_digits=12)
