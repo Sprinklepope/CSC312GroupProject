@@ -38,10 +38,10 @@ class Ticket_History(models.Model):
 
     bookingRef = models.CharField(max_length=6)
     seatNo = models.CharField(max_length=3)
-    passenger_passportNo = models.CharField(max_length=13)
+    passenger_passportNo = models.CharField('Passanger ID/Passport Number', max_length=13)
     booked_MemberID = models.ForeignKey(User, on_delete=models.CASCADE)
-    passengerNames = models.CharField(max_length=100)
-    passengerSurname = models.CharField(max_length=100)
+    passengerNames = models.CharField('Passanger Name', max_length=100)
+    passengerSurname = models.CharField('Passanger Surname',max_length=100)
     flightNo = models.ForeignKey(Flight, on_delete=models.CASCADE)
     seatClass = models.CharField(max_length=1, choices=CLASS_CHOICES, default=ECONOMY)
     ticket_Cancelled = models.BooleanField(default=False)

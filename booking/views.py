@@ -76,6 +76,7 @@ class InfoCollectView(LoginRequiredMixin, UpdateView):
     template_name = 'booking/infocollect.html'
     model = Ticket_History
     fields = ['passenger_passportNo','passengerNames', 'passengerSurname']
+    context_object_name = 'context'
 
     def form_valid(self, form):
         form.instance.author = self.request.user
