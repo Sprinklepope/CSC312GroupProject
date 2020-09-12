@@ -7,6 +7,7 @@ from django.http import HttpResponseRedirect, HttpResponseForbidden
 from .models import Flight, Ticket_History
 from .forms import PayementForm
 import random
+from django.contrib import messages
 
 class FlightSelectView(ListView):
     '''
@@ -54,6 +55,8 @@ def seatselect(request, flight):
             request.session['order'] = booking
             request.session['classes'] = classesNo
             return redirect('booking-info', pk=ids[0])
+        else:
+            messages.error = (request, 'Please make a selection before submitting')
     # Removing incomplete ticket entries
     Ticket_History.objects.filter(passenger_passportNo__exact='',passengerNames__exact='',passengerSurname__exact='').delete()
     # Collecting Context Data to be sent to view
