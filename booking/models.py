@@ -13,7 +13,7 @@ class Plane(models.Model):
 
 
 class Flight(models.Model):
-    flightNo = models.CharField(max_length=5, primary_key=True, unique=True)
+    flightNo = models.CharField(max_length=5)
     airline = models.CharField(max_length=100)
     seatsAvailable = models.IntegerField()
     departureLocation = models.CharField(max_length=100)

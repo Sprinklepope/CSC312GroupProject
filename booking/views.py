@@ -8,6 +8,7 @@ from .models import Flight, Ticket_History
 from .forms import PayementForm
 import random
 from django.contrib import messages
+from datetime import datetime
 
 class FlightSelectView(ListView):
     '''
@@ -17,6 +18,10 @@ class FlightSelectView(ListView):
     model = Flight
     context_object_name = 'flights'
     ordering = ['flightDateTime']
+
+    def get_queryset(self):
+        qs = self.model.objects.filter(flightDateTime__gt=datetime.now())
+        return qs
 
 @login_required
 def seatselect(request, flight):

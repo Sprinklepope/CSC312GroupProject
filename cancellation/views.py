@@ -16,7 +16,7 @@ class TicketSelectView(LoginRequiredMixin, ListView):
     
     def get_context_data(self, **kwargs):
         context = {}
-        context['tickets'] = Ticket_History.objects.filter(booked_MemberID=self.request.user, flightNo__flightDateTime__gte=datetime.today(), ticket_Cancelled=False)
+        context['tickets'] = Ticket_History.objects.filter(booked_MemberID=self.request.user, flightNo__flightDateTime__gte=datetime.now(), ticket_Cancelled=False)
         context['orders'] = list(set(context['tickets'].values_list('bookingRef')))
         return context
 
