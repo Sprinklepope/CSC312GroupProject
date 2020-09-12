@@ -24,4 +24,5 @@ urlpatterns = [
     path('', include("django.contrib.auth.urls")),
     path('booking/', include('booking.urls')),
     path('management/', include('management.urls')),
+    path('cancellation/', include('cancellation.urls')),
 ]

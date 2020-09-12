@@ -1,0 +1,34 @@
+{% extends "main/base.html" %}
+{% block content %}
+    <h1>Your Orders:</h1>
+    {% if orders|length == 0 %}
+    <h2>You have no up and coming bookings.</h2>
+    {% endif %}
+    {% for order in orders %}
+        <h2>Booking #{{order.0}}</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Flight</th>
+                    <th scope="col">Seat</th>
+                    <th scope="col">Class</th>
+                    <th scope="col">Flight Date</th>
+                    <th scope="col">Cancel</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for ticket in tickets %}
+                    {% if ticket.bookingRef == order.0 %}
+                        <tr>
+                            <th scope="row">{{ ticket.flightNo.flightNo }}</th>
+                            <td>{{ ticket.seatNo }}</td>
+                            <td>{{ ticket.get_seatClass_display }}</td>
+                            <td>{{ ticket.flightNo.flightDateTime }}</td>
+                            <td><a href="{% url 'cancellation-cancel' ticket.id %}"><button type="button" class="btn btn-danger">Cancel Ticket</button></a></td>
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endfor %}
+{% endblock content %}

@@ -51,7 +51,7 @@
 		<a href="/">Home</a>
 		<a href="{% url 'booking-flight' %}">Book Flight</a>
         {% if user.is_authenticated %}
-		<a href="/cancelation">Cancel a Booking</a>
+		<a href="{% url 'cancellation-list' %}">Cancel a Booking</a>
 		<a href="/logout">Logout</a>
         {% else %}
 		<a href="/login">Login</a>

@@ -3,7 +3,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.views.generic import ListView, UpdateView
 from django.urls import reverse
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponseForbidden
 from .models import Flight, Ticket_History
 from .forms import PayementForm
 import random
@@ -157,14 +157,17 @@ def confirmation(request, booking):
     '''
     # Collecting Context Information
     tickets = Ticket_History.objects.filter(bookingRef=booking)
-    flight = Flight.objects.get(flightNo=request.session['flight'])
-    classes = request.session['classes']
-    total = classes['e']*flight.economyCost + classes['b']*flight.businessCost + classes['f']*flight.firstCost
-    context = {
-        'tickets': tickets,
-        'total': total,
-        'flight': flight,
-        'order': request.session['order']
-    }
-    # Rendering Confirmation Page
-    return render(request, 'booking/confirmation.html', context)
+    if request.user == tickets[0].booked_MemberID:
+        flight = Flight.objects.get(flightNo=request.session['flight'])
+        classes = request.session['classes']
+        total = classes['e']*flight.economyCost + classes['b']*flight.businessCost + classes['f']*flight.firstCost
+        context = {
+            'tickets': tickets,
+            'total': total,
+            'flight': flight,
+            'order': request.session['order']
+        }
+        # Rendering Confirmation Page
+        return render(request, 'booking/confirmation.html', context)
+    else:
+        return HttpResponseForbidden()
