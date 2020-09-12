@@ -17,10 +17,10 @@ class FlightSelectView(ListView):
     '''
     model = Flight
     context_object_name = 'flights'
-    ordering = ['flightDateTime']
+    ordering = 'flightDateTime'
 
     def get_queryset(self):
-        qs = self.model.objects.filter(flightDateTime__gt=datetime.now())
+        qs = self.model.objects.filter(flightDateTime__gt=datetime.now()).order_by(self.ordering)
         return qs
 
 @login_required

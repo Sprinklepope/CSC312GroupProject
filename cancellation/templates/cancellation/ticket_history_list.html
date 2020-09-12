@@ -2,7 +2,7 @@
 {% block content %}
     <h1>Booked Flights:</h1>
     {% if orders|length == 0 %}
-    <h2>You have no up and coming bookings.</h2>
+    <h2>You have no up and coming flights.</h2>
     {% endif %}
     {% for order in orders %}
         <h2>Booking #{{order.0}}</h2>

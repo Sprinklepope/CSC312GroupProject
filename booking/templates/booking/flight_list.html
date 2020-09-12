@@ -9,6 +9,7 @@
                 <th scope="col">Departure</th>
                 <th scope="col">Arrival</th>
                 <th scope="col">Date</th>
+                <th scope="col">Price</th>
                 <th scope="col">Book Now</th>
             </tr>
         </thead>
@@ -20,6 +21,7 @@
                     <td>{{ flight.departureLocation }}</td>
                     <td>{{ flight.arrivalLocation }}</td>
                     <td>{{ flight.flightDateTime }}</td>
+                    <td>R{{ flight.economyCost }} to R{{flight.firstCost}}</td>
                     {% if flight.seatsAvailable != 0 %}
                         <td><a href="{% url 'booking-seat' flight.flightNo %}"><button type="button" class="btn btn-success">Book</button></a></td>
                     {% else %}
