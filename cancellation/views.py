@@ -7,7 +7,7 @@ from datetime import datetime
 
 class TicketSelectView(LoginRequiredMixin, ListView):
     '''
-    Displays all available flights.
+    Displays all orders associated with current user.
     Extends ListView Default View
     '''
     model = Ticket_History
@@ -21,6 +21,10 @@ class TicketSelectView(LoginRequiredMixin, ListView):
         return context
 
 class TicketDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    '''
+    Changes ticket cancelation flag to true for selected ticket
+    Extends DeleteView Default View
+    '''
     model = Ticket_History
     template_name = 'cancellation/ticket_history_delete.html'
     context_object_name = 'ticket'
