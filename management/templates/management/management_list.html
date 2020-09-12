@@ -1,0 +1,37 @@
+{% extends "main/base.html" %}
+{% block content %}
+    {% if user.is_authenticated %}
+    <h1>Flight Info</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Flight</th>
+                <th scope="col">Airline</th>
+                <th scope="col">Date</th>
+                <th scope="col">Total Seats</th>
+                <th scope="col">Available Seats</th>
+                <th scope="col">Taken Seats</th>
+
+            </tr>
+        </thead>
+        <tbody>
+
+            {% for seats,flight,totalseats in triinfo%}
+                <tr>
+                    <th scope="row">{{ flight.flightNo }}</th>
+                    <td>{{ flight.airline }}</td>
+                    <td>{{ flight.flightDateTime }}</td>
+                    <td>{{ totalseats }}</td>
+                    <td>{{ flight.seatsAvailable }}</td>
+                    <td>{{seats}}</td>
+                </tr>
+            {% endfor %}
+
+
+        </tbody>
+    </table>
+    <td><a href="/downloadinfo"><button type="button" class="btn btn-success">Download as CSV</button></a></td>
+    {% else %}
+        <h1>You do not have the required credentials to view this page</h1>
+    {% endif%}
+{% endblock content %}
