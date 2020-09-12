@@ -1,5 +1,6 @@
 {% extends "main/base.html" %}
 {% block content %}
+    {% if user.is_authenticated %}
     <h1>Flight Info</h1>
     <table class="table">
         <thead>
@@ -30,4 +31,7 @@
         </tbody>
     </table>
     <td><a href="/downloadinfo"><button type="button" class="btn btn-success">Download as CSV</button></a></td>
+    {% else %}
+        <h1>You do not have the required credentials to view this page</h1>
+    {% endif%}
 {% endblock content %}
