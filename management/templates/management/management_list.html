@@ -1,6 +1,6 @@
 {% extends "main/base.html" %}
 {% block content %}
-    {% if user.is_authenticated %}
+    {% if user.is_staff %}
     <h1>Flight Info</h1>
     <table class="table">
         <thead>

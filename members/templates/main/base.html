@@ -39,6 +39,9 @@
 			  <!-- Navbar Right Side -->
 			  <div class="navbar-nav">
 				{% if user.is_authenticated %}
+				{% if user.is_staff %}
+				<a class="nav-item nav-link" href="{% url 'report' %}">Flight Reporting</a>
+				{% endif %}
 				  <a class="nav-item nav-link" href="{% url 'cancellation-list' %}">Booked Flights</a>
 				  <a class="nav-item nav-link" href="/logout">Logout</a>
 				{% else %}
