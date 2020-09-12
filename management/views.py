@@ -35,9 +35,9 @@ class FlightInfo(ListView):
         return context
 
 
-    def downloadinfo(request):
-        # Create the HttpResponse object with the appropriate CSV header.
-
+def downloadinfo(request):
+    # Create the HttpResponse object with the appropriate CSV header.
+    if request.user.is_staff:
         response = HttpResponse(content_type='text/csv')
         response['Content-Disposition'] = 'attachment; filename="current.csv"'
         writer = csv.writer(response)
@@ -45,12 +45,10 @@ class FlightInfo(ListView):
         for flight in Flight.objects.all():
             numseats = flight.planeID.seatsAvailable
             writer.writerow([flight.flightNo, flight.airline, flight.flightDateTime, numseats, flight.seatsAvailable, numseats-flight.seatsAvailable])
+    else:
+        response = HttpResponse("<html><body>You do not have the required credentials to access this page</body></html>")
+    return response
 
-        return response
-
-
-def mgmt(request):
-    return HttpResponse("<html><body>You do not have the required credentials to access this page</body></html>")
 
 
 
