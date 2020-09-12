@@ -3,31 +3,9 @@
 <html>
 <head>
 	<style type="text/css">
-		.sidenav {
-			height:60px;
-			width:100%;
-			position: fixed;
-			z-index:1;
-			top:0;
-			left:0;
+		.navbar {
 			background-color:#3B5998;
-			overflow-x: hidden;
-			padding-top: 0px;
-
-
-		}
-
-		.sidenav a {
-			padding:6px 8px 6px 16px;
-			text-decoration: none;
-			font-size:25px;
-			color: #FFFFFF;
-			display:block;
-			float: left;
-		}
-
-		.sidenav a:hover{
-			color:#c0c0c0;
+			font-size: 22px !important;
 		}
 
 		.main{
@@ -47,18 +25,31 @@
 </head>
 
 <body>
-	<div class="sidenav">
-		<a href="/">Home</a>
-		<a href="{% url 'booking-flight' %}">Book Flight</a>
-        {% if user.is_authenticated %}
-		<a href="{% url 'cancellation-list' %}">Cancel a Booking</a>
-		<a href="/logout">Logout</a>
-        {% else %}
-		<a href="/login">Login</a>
-		<a href="/register">Sign Up</a>
-        {% endif %}
-
-	</div>
+	<header class="site-header">
+		<nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
+		  <div class="container">
+			<a class="navbar-brand mr-4" style="font-size: 30px !important" href="{% url 'index' %}">FlightBook</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarToggle">
+			  <div class="navbar-nav mr-auto">
+				<a class="nav-item nav-link" href="{% url 'index' %}">Home</a>
+			  </div>
+			  <!-- Navbar Right Side -->
+			  <div class="navbar-nav">
+				{% if user.is_authenticated %}
+				  <a class="nav-item nav-link" href="{% url 'cancellation-list' %}">Booked Flights</a>
+				  <a class="nav-item nav-link" href="/logout">Logout</a>
+				{% else %}
+				  <a class="nav-item nav-link" href="/login">Login</a>
+				  <a class="nav-item nav-link" href="/register">Register</a>
+				{% endif %}
+			  </div>
+			</div>
+		  </div>
+		</nav>
+	  </header>
 
 	<div id="content" name="content" class="main">
 		<div class="row justify-content-center">

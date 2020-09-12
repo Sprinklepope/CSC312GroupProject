@@ -50,6 +50,7 @@ def seatselect(request, flight):
                 ids.append(ticket.id)
             # Loading data into session for next views
             request.session['ids'] = ids
+            request.session['NoOfSeats'] = len(ids)
             request.session['order'] = booking
             request.session['classes'] = classesNo
             return redirect('booking-info', pk=ids[0])
@@ -125,7 +126,7 @@ def payment(request, booking):
         if form.is_valid():
             # Decrementing number of available seats for flight
             flight = Flight.objects.get(flightNo=request.session['flight'])
-            flight.seatsAvailable = flight.seatsAvailable - 1
+            flight.seatsAvailable = flight.seatsAvailable - request.session['NoOfSeats']
             flight.save()
             return HttpResponseRedirect(reverse('booking-confirm' ,kwargs={'booking': request.session['order']}))
     else:

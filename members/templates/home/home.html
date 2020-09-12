@@ -1,15 +1,26 @@
-{#home.html#}
 {% extends "main/base.html" %}
-
-{% block title %}Flight Book{% endblock %}
 {% load crispy_forms_tags %}
 
 {% block content %}
-    <form method="POST" class="form-group">
-	{% csrf_token %}
-	{{ form|crispy }}
-
-     <img src="https://media.tenor.com/images/a301bd2fbc0a8bbe86983f9c36444b13/tenor.gif" alt="nick" width="498" height="280">
-
-    </form>
+    <h1>Welcome to FlightBook!</h1>
+    <div class="row">
+        <div class="col-sm-6">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Book a Flight</h5>
+              <p class="card-text">Browse our catalogue of flights and make a booking today!</p>
+              <a href="{% url 'booking-flight' %}" class="btn btn-primary">Make a Booking</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">View or Cancel Tickets</h5>
+              <p class="card-text">View or cancel your up and coming flights.</p>
+              <a href="#" class="btn btn-primary">Booked Flights</a>
+            </div>
+          </div>
+        </div>
+      </div>
 {% endblock %}
