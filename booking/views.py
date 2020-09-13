@@ -64,6 +64,7 @@ def seatselect(request, flight):
             messages.error = (request, 'Please make a selection before submitting')
     # Removing incomplete ticket entries
     Ticket_History.objects.filter(passenger_passportNo__exact='',passengerNames__exact='',passengerSurname__exact='').delete()
+    Ticket_History.objects.filter(paid=False).delete()
     # Collecting Context Data to be sent to view
     request.session['flight'] = flight
     flightInfo = Flight.objects.get(flightNo=flight)
@@ -166,6 +167,9 @@ def confirmation(request, booking):
     '''
     # Collecting Context Information
     tickets = Ticket_History.objects.filter(bookingRef=booking)
+    for ticket in tickets:
+        ticket.paid=True
+        ticket.save()
     if request.user == tickets[0].booked_MemberID:
         flight = Flight.objects.get(flightNo=request.session['flight'])
         classes = request.session['classes']

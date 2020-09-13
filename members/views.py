@@ -2,9 +2,11 @@ from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 from .forms import RegisterForm
+from booking.models import Ticket_History
 
 
 def index(request):
+    Ticket_History.objects.filter(paid=False).delete()
     return render(request, "home/home.html")
 
 
