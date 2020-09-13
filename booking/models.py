@@ -45,3 +45,4 @@ class Ticket_History(models.Model):
     flightNo = models.ForeignKey(Flight, on_delete=models.CASCADE)
     seatClass = models.CharField(max_length=1, choices=CLASS_CHOICES, default=ECONOMY)
     ticket_Cancelled = models.BooleanField(default=False)
+    payed = models.BooleanField(default=False)

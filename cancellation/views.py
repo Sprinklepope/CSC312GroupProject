@@ -15,6 +15,7 @@ class TicketSelectView(LoginRequiredMixin, ListView):
     template_name = 'cancellation/ticket_history_list.html'
     
     def get_context_data(self, **kwargs):
+        Ticket_History.objects.filter(passenger_passportNo__exact='',passengerNames__exact='',passengerSurname__exact='', payed=False).delete()
         context = {}
         context['tickets'] = Ticket_History.objects.filter(booked_MemberID=self.request.user, flightNo__flightDateTime__gte=datetime.now(), ticket_Cancelled=False)
         context['orders'] = list(set(context['tickets'].values_list('bookingRef')))
